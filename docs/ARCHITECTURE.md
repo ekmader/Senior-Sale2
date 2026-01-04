@@ -19,6 +19,12 @@ Senrio Sale is a mobile-first marketplace for college students. The MVP uses a s
 - Enforce `.edu` signups in frontend and verify server-side by matching email domain against the `universities` table.
 - Reports and moderation tools are available to remove content.
 
+## Groups & Moderation
+- Groups can be `public` or `private`. Public groups are discoverable and their posts are visible to all members of the university. Private groups require join requests and accepted members to view posts.
+- Posts may be targeted to groups using `items.group_id`; RLS policies enforce visibility (public groups or members only). Group membership is stored in `group_memberships`.
+- Moderation: admins (per-university) and group moderators can remove posts and accept join requests. Reports are stored in `reports` and handled by the admin dashboard.
+- Admin functions (remove item, ban user, update report status) are implemented as safe SQL functions that check `auth.uid()` and admin membership.
+
 ## Why this stack?
 - Supabase gives a free tier good for early testing and includes all necessary building blocks: auth, storage, relational DB, functions.
 - PWA avoids App Store friction and is installable on phones.

@@ -5,6 +5,9 @@ import App from './App'
 import Auth from './pages/Auth'
 import Feed from './pages/Feed'
 import CreatePost from './pages/CreatePost'
+import Groups from './pages/Groups'
+import GroupPage from './pages/GroupPage'
+import AdminDashboard from './pages/AdminDashboard'
 
 createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
@@ -15,6 +18,9 @@ createRoot(document.getElementById('root')!).render(
         </Route>
         <Route path="/auth" element={<Auth />} />
         <Route path="/post" element={<CreatePost />} />
+        <Route path="/groups" element={<Groups />} />
+        <Route path="/groups/:id" element={<GroupPage />} />
+        <Route path="/admin" element={<AdminDashboard />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

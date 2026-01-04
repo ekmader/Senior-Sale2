@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react'
 import { supabase } from '../lib/supabaseClient'
+import ItemCard from '../components/ItemCard'
 
 type Item = {
   id: string
@@ -69,12 +70,8 @@ export default function Feed(){
       {loading ? <p>Loading...</p> : (
         <div style={{display:'grid', gridTemplateColumns:'repeat(2, 1fr)', gap: 12}}>
           {items.map(it => (
-            <div key={it.id} style={{border:'1px solid #ddd', padding:8, borderRadius:8}}>
-              <div style={{height:120, background:'#f6f6f6', marginBottom:8}}>
-                {it.image_path ? <img src={"/storage/v1/object/public/"+it.image_path} alt={it.title} style={{width:'100%', height:'100%', objectFit:'cover'}}/> : null}
-              </div>
-              <strong>{it.title}</strong>
-              <div>{it.price ? `$${it.price}` : 'Free'}</div>
+            <div key={it.id}>
+              <ItemCard item={it} />
             </div>
           ))}
         </div>

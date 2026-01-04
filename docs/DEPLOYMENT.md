@@ -18,6 +18,15 @@
    - `VITE_SUPABASE_ANON_KEY`
 4. Deploy — the default build command is `npm run build` and publish folder is `web/dist`.
 
+## Admin / moderation setup
+- To grant admin rights to a user for a university, run the SQL (replace `profile_id` and `university_id` with the appropriate UUIDs):
+
+```
+INSERT INTO admins (profile_id, university_id, role) VALUES ('profile-uuid','university-uuid','admin');
+```
+
+- Use the Supabase SQL Editor or CLI to run admin and moderation RPC functions (`admin_remove_item`, `admin_set_user_banned`, `admin_update_report`). These functions enforce authorization server-side.
+
 ## Notes
 - For migrations or administrative DB tasks you may need the Supabase Service Role key; keep it secret and never expose it to the client.
 - For image uploads, use Supabase Storage SDK from client and store path references in `items.image_path`.

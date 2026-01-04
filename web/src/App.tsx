@@ -22,8 +22,10 @@ export default function App(){
         <h1>Senrio Sale</h1>
         <nav>
           <Link to="/">Feed</Link> |
+          <Link to="/groups">Groups</Link> |
           <Link to="/post">New Post</Link> |
-          <Link to="/auth">Sign in</Link>
+          <Link to="/auth">Sign in</Link> |
+          <Link to="/admin">Admin</Link>
         </nav>
       </header>
 
