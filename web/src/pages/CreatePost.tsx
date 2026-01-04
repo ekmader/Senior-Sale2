@@ -34,16 +34,21 @@ export default function CreatePost(){
 
     let imagePath = null
     if (image){
-      const fileName = `${user.id}/${Date.now()}-${image.name}`
-      const { data: uploadData, error: uploadError } = await supabase.storage.from('public').upload(fileName, image)
-      if (uploadError) { setMessage('Upload failed: '+uploadError.message); return }
-      imagePath = uploadData.path
+      // Resize to reasonable size before upload
+      try{
+        const { resizeImage } = await import('../lib/imageUtils')
+        const resized = await resizeImage(image, 1200)
+        const fileName = `${user.id}/${Date.now()}-${resized.name}`
+        const { data: uploadData, error: uploadError } = await supabase.storage.from('public').upload(fileName, resized)
+        if (uploadError) { setMessage('Upload failed: '+uploadError.message); return }
+        imagePath = uploadData.path
+      }catch(err:any){ setMessage('Image processing failed: '+err.message); return }
     }
 
-    const payload: any = { user_id: user.id, university_id: profile.university_id, title, price: price || null, category, image_path: imagePath }
-    if (groupId) payload.group_id = groupId
+    const payload: any = { p_user: user.id, p_university: profile.university_id, p_title: title, p_price: price || null, p_category: category, p_image_path: imagePath, p_group: groupId }
 
-    const { error } = await supabase.from('items').insert([payload])
+    // Use RPC that has rate limiting protections on server-side
+    const { data, error } = await supabase.rpc('insert_item', payload)
     if (error) setMessage(error.message)
     else { setMessage('Posted!'); setTitle(''); setPrice(''); setImage(null); setGroupId(null) }
   }

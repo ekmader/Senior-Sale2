@@ -30,3 +30,8 @@ createRoot(document.getElementById('root')!).render(
 supabase.auth.onAuthStateChange((event, session) => {
   console.log('Auth event', event)
 })
+
+// Register service worker for PWA
+import { registerServiceWorker } from './registerServiceWorker'
+registerServiceWorker()
+
